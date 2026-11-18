@@ -1,0 +1,7 @@
+# Etat local du CLI Netlify (site linke), pas besoin de le versionner
+.netlify/
+
+# Fichiers temporaires Windows / editeurs
+Thumbs.db
+desktop.ini
+*.tmp
