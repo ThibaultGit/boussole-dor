@@ -24,8 +24,14 @@ Site en ligne : https://gold-per-hour-calculator.netlify.app/
 | `calculateur-or-papa.html` | Source de vérité. CSS + données + logique dans un seul fichier. |
 | `netlify-site/index.html` | Copie exacte déployée (ne pas éditer : c'est un `Copy-Item` du précédent). |
 | `calculateur-or-papa-netlify.zip` | Archive prête à glisser dans Netlify. |
+| `deploy.ps1` | Copie + zip + `netlify deploy --prod`. `-LocalOnly` pour ne pas déployer. |
 
-Après toute modification : copier le HTML vers `netlify-site/index.html`, régénérer le zip, redéployer.
+Après toute modification : lancer `.\deploy.ps1` (ou `.\deploy.ps1 -LocalOnly` si tu publies à la main).
+Ne jamais éditer `netlify-site/index.html` : le script l'écrase.
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -File .\deploy.ps1
+```
 
 ## Structure du fichier
 
