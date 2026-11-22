@@ -1,5 +1,10 @@
-# Etat local du CLI Netlify (site linke), pas besoin de le versionner
+# Etat local des CLI (Netlify / Vercel), ne pas versionner
 .netlify/
+.vercel/
+
+# Anciens artefacts Netlify generes localement
+netlify-site/
+calculateur-or-papa-netlify.zip
 
 # Fichiers temporaires Windows / editeurs
 Thumbs.db

@@ -22,12 +22,12 @@ Site en ligne : https://gold-per-hour-calculator.netlify.app/
 | Fichier | Rôle |
 |---|---|
 | `calculateur-or-papa.html` | Source de vérité. CSS + données + logique dans un seul fichier. |
-| `netlify-site/index.html` | Copie exacte déployée (ne pas éditer : c'est un `Copy-Item` du précédent). |
-| `calculateur-or-papa-netlify.zip` | Archive prête à glisser dans Netlify. |
-| `deploy.ps1` | Copie + zip + `netlify deploy --prod`. `-LocalOnly` pour ne pas déployer. |
+| `index.html` | Copie exacte servie par Vercel (ne pas éditer : écrasée par `deploy.ps1`). |
+| `vercel.json` | Configuration statique Vercel (`cleanUrls`, `Cache-Control: max-age=0`). |
+| `deploy.ps1` | Copie vers `index.html` + validation `node --check` + commit & push GitHub (déclenche Vercel). `-LocalOnly` pour ne pas pousser. |
 
-Après toute modification : lancer `.\deploy.ps1` (ou `.\deploy.ps1 -LocalOnly` si tu publies à la main).
-Ne jamais éditer `netlify-site/index.html` : le script l'écrase.
+Après toute modification : lancer `.\deploy.ps1` (ou `.\deploy.ps1 -LocalOnly` pour préparer/valider localement sans pousser).
+Ne jamais éditer `index.html` : le script l'écrase depuis `calculateur-or-papa.html`.
 
 ```
 powershell -NoProfile -ExecutionPolicy Bypass -File .\deploy.ps1
@@ -116,10 +116,15 @@ Taux relevés (17 nov. 2026) :
 | Mottled Drywallow Crocolisk (4344) | Tender Crocolisk Meat 58 % |
 | Venture Co. Strip Miner (674) | Pages Green Hills ≈ 11 % cumulés, Broken Electro-lantern 30 % |
 | Elder Cloud Serpent (4119) | Light Feather 50 % (aucune viande) |
+| Searing Hatchling (4323) & Searing Whelp (4324) | Small Flame Sac 14 %, Wicked Claw 2,7 % |
+| Crystal Spine Basilisk (689) | Curved Basilisk Claw 30 %, Intact Basilisk Spine 30 %, Large Fang 4 %, Wicked Claw 1,2 % |
+| Crimson Whelp (1069) | Small Flame Sac 5 %, Sharp Claw 4 %, Large Fang 1 % |
+| Scorched Basilisk (4041) | Scales & Teeth 31 %, Curved Claw 19 %, Spine 18 %, Sharp Claw 6 %, Large Fang 1,4 % |
+| Cinderscale Whelp (262473) | Small Flame Sac 13 %, Wicked Claw 2,5 % (zone Forever : Riverglades) |
 
-IDs AH suivis : 3182, 4232, 4234, 4235, 4304, 4306, 4338, 8169, 7067, 7068, 7069, 7070, 7912, 2776,
+IDs AH suivis : 3182, 2319, 4232, 4234, 4235, 4304, 4306, 4338, 8169, 7067, 7068, 7069, 7070, 7912, 2776,
 2772, 4278, 2838, 10285, 12207, 12202, 12204, 5121, 5122, 3712, 3667, 17056, 4461, 2735, 1630,
-3369, 3818, 3821, 3358, 3357 → 35 objets.
+3369, 3818, 3821, 3358, 3357, 4402, 5637, 8146, 5635 → 39 objets.
 
 ## Modèles d'estimation (lignes ESTIM.)
 
@@ -132,34 +137,25 @@ IDs AH suivis : 3182, 4232, 4234, 4235, 4304, 4306, 4338, 8169, 7067, 7068, 7069
 - Ne pas gonfler ces valeurs sans source : elles sont affichées comme estimations et la note de bas de
   page explique le modèle au lecteur.
 
-## Déploiement Netlify
+## Déploiement GitHub → Vercel
 
-- Site : `gold-per-hour-calculator`, ID `a3ee91b6-6da0-4ff6-a0e3-534084224c41`, compte Guinet Thibault.
-- Voie manuelle : https://app.netlify.com/projects/gold-per-hour-calculator/deploys → glisser le zip
-  ou le HTML dans la zone « Drag and drop ». Publie automatiquement.
-- Voie CLI (plus fiable, pas de session navigateur) :
-  ```
-  npm i -g netlify-cli
-  netlify login
-  netlify link --id a3ee91b6-6da0-4ff6-a0e3-534084224c41
-  netlify deploy --prod --dir=netlify-site
-  ```
-- Attention : la session du navigateur expire et la connexion Google redemande l'identifiant.
-  L'agent ne doit jamais saisir de mot de passe ; demander à l'utilisateur.
+- Flux continu : **GitHub (branche `main`) → Vercel** (projet statique sans étape de build, Framework Preset : `Other`, Output Directory : `.`).
+- `.\deploy.ps1` synchronise `calculateur-or-papa.html` → `index.html`, valide la syntaxe JS, puis fait `git commit` et `git push` vers `origin`, ce qui déclenche automatiquement le déploiement en production sur Vercel.
+- Pour un déploiement initial ou manuel via CLI : `npm i -g vercel` puis `vercel --prod`.
 
 ## Vérification après déploiement
 
-1. Ouvrir https://gold-per-hour-calculator.netlify.app/ et recharger (cache `max-age=0`).
-2. Console : zéro erreur. Bandeau AH : « 35/35 objets » et pastille verte.
-3. 22 lignes. Basculer sur « marchand + AH » : le meilleur spot doit être Owlbeast (~38 g/h au
-   curseur 150), puis Kodo, Shredder.
+1. Ouvrir l'URL de production Vercel et recharger (cache `max-age=0`).
+2. Console : zéro erreur. Bandeau AH : « 39/39 objets » et pastille verte.
+3. 27 lignes. Basculer sur « marchand + AH » : le meilleur spot doit être Chouettards primitifs (~38 g/h au
+   curseur 150), puis Kodo, Déchireurs.
 4. Tester le repli : couper le réseau, recharger → les valeurs statiques s'affichent sans casser la page.
 5. Export CSV : l'en-tête doit contenir les deux colonnes « Or/h marchand uniquement » et
    « Or/h marchand + AH », plus une ligne d'horodatage de la synchro.
 
 ## Pièges connus
 
-- Ne pas éditer `netlify-site/index.html` directement : il est écrasé à chaque préparation de déploiement.
+- Ne pas éditer `index.html` directement : il est écrasé à chaque préparation de déploiement par `deploy.ps1`.
 - Le champ `rate` peut être > 1 (quantité par monstre) : c'est volontaire, ne pas le « corriger » en 0–100.
 - `mobLvl` est décorrélé de `lo`/`hi` : Owlbeast est recommandé 42+ mais les monstres sont 44–45.
 - Les prix changent : ne pas figer le classement dans le code, il est calculé à l'affichage.
