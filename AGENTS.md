@@ -3,7 +3,7 @@
 Page HTML autonome (aucun build, aucune dépendance, aucun framework) qui classe des spots de farm
 par or/heure pour WoW: Forever. Les prix de l'hôtel des ventes sont récupérés en direct.
 
-Site en ligne : https://gold-per-hour-calculator.netlify.app/
+Site en ligne : https://boussole-dor.vercel.app/
 
 ## Contraintes non négociables
 

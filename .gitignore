@@ -10,3 +10,6 @@ calculateur-or-papa-netlify.zip
 Thumbs.db
 desktop.ini
 *.tmp
+
+.vercel
+.env*
