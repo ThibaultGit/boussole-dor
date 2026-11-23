@@ -30,7 +30,7 @@
     font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     padding: 20px 16px 48px;
   }
-  .wrap { max-width: 1280px; margin: 0 auto; }
+  .wrap { max-width: 1440px; margin: 0 auto; }
   header.hero { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 18px; }
   .hero-copy { flex: 1 1 auto; min-width: 0; }
   header h1 { font-size: 27px; margin: 0 0 6px; letter-spacing: -0.015em; }
@@ -158,16 +158,19 @@
   .btn.solid:hover { background: #ffd35f; }
 
   .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); }
-  table { border-collapse: collapse; width: 100%; min-width: 980px; background: var(--panel); }
-  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table { border-collapse: collapse; width: 100%; table-layout: fixed; background: var(--panel); }
+  th, td { padding: 9px 8px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; overflow-wrap: break-word; }
   th {
-    font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted);
-    background: var(--panel-2); position: sticky; top: 0; white-space: nowrap;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted);
+    background: var(--panel-2); position: sticky; top: 0; white-space: normal; line-height: 1.25;
   }
   th.sortable { cursor: pointer; user-select: none; }
   th.sortable:hover { color: var(--text); }
   th .arrow { color: var(--gold); }
-  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+  td.n { white-space: nowrap; }
+  th.n { white-space: normal; }
+  th.c, td.c { text-align: center; }
   tbody tr { cursor: pointer; }
   tbody tr:hover { background: rgba(255,255,255,0.03); }
   tbody tr.sel { background: rgba(240,192,74,0.09); box-shadow: inset 3px 0 0 var(--gold); }
@@ -178,8 +181,8 @@
   .fac { font-size: 11px; font-weight: 700; margin-left: 6px; }
   .fac.A { color: var(--alliance); } .fac.H { color: var(--horde); }
   .tag {
-    display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.03em;
-    padding: 2px 7px; border-radius: 99px; margin: 0 4px 4px 0; white-space: nowrap;
+    display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.02em;
+    padding: 2px 6px; border-radius: 99px; margin: 0 3px 3px 0; white-space: normal; line-height: 1.25;
     border: 1px solid var(--line); color: var(--muted);
   }
   .tag.hot { color: #ffb08a; border-color: #7a3b22; background: rgba(255,120,60,0.1); }
@@ -187,17 +190,28 @@
   .tag.skin { color: var(--blue); border-color: #2b4a70; background: rgba(111,179,255,0.08); }
   .tag.ah { color: #d6a3ff; border-color: #56357a; background: rgba(190,120,255,0.08); }
   .tag.est { color: var(--muted); }
-  .drops { font-size: 12.5px; color: var(--muted); min-width: 245px; max-width: 34ch; }
+  .drops { font-size: 12.5px; color: var(--muted); }
   .drop-list { display: flex; flex-direction: column; gap: 3px; }
-  .drop-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; line-height: 1.35; }
-  .drop-name { color: var(--text); min-width: 0; }
-  .drop-meta { display: inline-flex; align-items: baseline; gap: 6px; flex: none; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .drop-row { display: flex; align-items: baseline; justify-content: space-between; gap: 5px; line-height: 1.35; }
+  .drop-name { color: var(--text); min-width: 0; overflow-wrap: break-word; }
+  .drop-meta { display: inline-flex; align-items: baseline; gap: 5px; flex: none; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .drop-pct { color: var(--muted); font-size: 11.5px; }
   .drop-px { font-weight: 700; font-size: 12px; }
   .drop-px.ah { color: #d6a3ff; }
   .drop-px.vnd { color: var(--silver); }
   .drop-foot { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
   .gph { font-weight: 800; color: var(--gold); font-size: 16px; }
+  @media (max-width: 1080px) {
+    .mapbtn-txt { display: none; }
+  }
+  @media (max-width: 1024px) {
+    th, td { padding: 7px 6px; font-size: 12px; }
+    .gph { font-size: 14px; }
+    .drops { font-size: 11.5px; }
+  }
+  @media (max-width: 760px) {
+    table { min-width: 720px; }
+  }
   .small { font-size: 12px; color: var(--muted); }
   .empty { padding: 28px; text-align: center; color: var(--muted); }
   .note { font-size: 13px; color: var(--muted); margin-top: 12px; max-width: 90ch; }
@@ -519,14 +533,24 @@
 
     <div class="tablewrap">
       <table>
+        <colgroup>
+          <col style="width: 20%;">
+          <col style="width: 9%;">
+          <col style="width: 13%;">
+          <col style="width: 28%;">
+          <col style="width: 8%;">
+          <col style="width: 8%;">
+          <col style="width: 8%;">
+          <col style="width: 6%;">
+        </colgroup>
         <thead>
           <tr>
             <th class="sortable" data-sort="zone">Zone &amp; monstre</th>
             <th class="sortable" data-sort="lo">Niveau</th>
-            <th>Particularités / méta</th>
-            <th>Butins / ventes marchand</th>
-            <th class="sortable n" data-sort="raw">Marchand / monstre (<span class="s" title="Pièces d'argent (silver)">s</span>)</th>
-            <th class="sortable n" data-sort="ah">Bonus AH / monstre (<span class="s" title="Pièces d'argent (silver)">s</span>)</th>
+            <th>Particularités</th>
+            <th>Butins / marchand</th>
+            <th class="sortable n" data-sort="raw">Marchand (<span class="s" title="Pièces d'argent (silver)">s</span>)</th>
+            <th class="sortable n" data-sort="ah">Bonus AH (<span class="s" title="Pièces d'argent (silver)">s</span>)</th>
             <th class="sortable n" data-sort="gph">Or / h</th>
             <th class="c">Carte</th>
           </tr>
@@ -1145,7 +1169,7 @@ function render() {
         <td class="n">${fmtSHtml(s.raw)}${unit}</td>
         <td class="n" style="${state.mode === "vendor" ? "opacity:.45" : ""}" title="${ahNote}">${fmtSHtml(ahv)}${ahLive ? '<span class="ahdot mini ok"></span>' : ""}</td>
         <td class="n"><span class="gph">${fmtG(g)}</span>${pace}</td>
-        <td class="c"><button type="button" class="btn small mapbtn" data-map="${s.id}" title="Ouvrir la carte de ${escHtml(s.zone)}">🗺️ Carte</button></td>
+        <td class="c"><button type="button" class="btn small mapbtn" data-map="${s.id}" title="Ouvrir la carte de ${escHtml(s.zone)}">🗺️<span class="mapbtn-txt"> Carte</span></button></td>
       </tr>`;
     }).join("");
   }
